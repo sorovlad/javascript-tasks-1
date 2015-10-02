@@ -45,6 +45,8 @@ function convertNineNumberToRoman(arabicNumeral)
     	romanNumeral = "IV";
     if(arabicNumeral < 4)
     	romanNumeral = multiplySting("I", arabicNumeral % 5);
+    if(arabicNumeral == 0)
+        romanNumeral = "—";
     return romanNumeral;
 }
 
@@ -101,6 +103,12 @@ function convertToAscii(romanNumber)
 			1: "|-|",
 			2: "   ",
 			3: "|_|"
+		},
+		"—":{
+			0: "    ",
+			1: "____",
+			2: "||||",
+			3: "    "
 		}
 	 }
 	var asciArt = "";
