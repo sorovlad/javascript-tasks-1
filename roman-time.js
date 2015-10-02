@@ -6,9 +6,9 @@ minutes = +minutes;
 
 if (checkCorrect(hours, minutes))
 {
-	var timeStr = convertTimeToRoman(hours, minutes);
+    var timeStr = convertTimeToRoman(hours, minutes);
     console.log(timeStr);
-	console.log(convertToAscii(timeStr));
+    console.log(convertToAscii(timeStr));
 }
 else
     console.log("Время указано не верно");
@@ -36,7 +36,7 @@ function convertToRoman(arabicNumeral)
 
 function convertNineNumberToRoman(arabicNumeral)
 {
-	var romanNumeral;
+    var romanNumeral;
     if (arabicNumeral == 9)
     	romanNumeral = "IX";
     if(arabicNumeral >= 5 && arabicNumeral < 9)
@@ -50,10 +50,10 @@ function convertNineNumberToRoman(arabicNumeral)
 
 function multiplySting(str, mul)
 {
-	var newStr = "";
-	for(var i=0; i < mul; i ++)
-		newStr += str;
-	return newStr
+    var newStr = "";
+    for(var i=0; i < mul; i ++)
+        newStr += str;
+    return newStr
 }
 
 
@@ -71,8 +71,8 @@ function checkCorrect(hours, minutes)
 
 function convertToAscii(romanNumber)
 {
-	var textToAsci = { 
-		L: {
+    var textToAsci = { 
+        L: {
 			0: "||     ",
 			1: "||     ",
 			2: "||____ ",
