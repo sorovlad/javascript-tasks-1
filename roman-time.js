@@ -7,7 +7,7 @@ minutes = Number(minutes);
 if (checkCorrect(hours, minutes))
 {
     var timeStr = convertTimeToRoman(hours, minutes);
-    console.log(timeStr);    
+    console.log(timeStr);
     console.log(convertToAscii(timeStr));
 }
 else
@@ -35,7 +35,7 @@ function convertToRoman(arabicNumeral)
 }
 
 function convertNineNumberToRoman(arabicNumeral)
-{ 
+{
     var romanNumeral;
     if (arabicNumeral == 9)
         romanNumeral = "IX";
@@ -72,8 +72,8 @@ function checkCorrect(hours, minutes)
 
 
 function convertToAscii(romanNumber)
-{    
-    var textToAsci = {         
+{
+    var textToAsci = {
         L: {
             0: "||     ",
             1: "||     ",
@@ -111,7 +111,7 @@ function convertToAscii(romanNumber)
             3: "    "
         }
 
-    }
+   }
     var asciArt = "";
     for(var k = 0; k < 4; k++)
     {
