@@ -1,78 +1,99 @@
 var hours = process.argv[2];
 var minutes = process.argv[3];
 
-hours = Number(hours);
-minutes = Number(minutes);
-
-if (checkCorrect(hours, minutes))
-{
-    var timeStr = convertTimeToRoman(hours, minutes);
-    console.log(timeStr);
-    console.log(convertToAscii(timeStr));
+if (error = checkCorrect(hours, minutes)){
+    console.log(error);
+    process.exit(1);
 }
-else
-    console.log("Время указано не верно");
 
-function convertTimeToRoman(hours, minutes)
-{
+var timeStr = convertTimeToRoman(hours, minutes);
+
+console.log(timeStr);
+console.log(convertToAscii(timeStr));
+
+
+function convertTimeToRoman(hours, minutes){
     var hoursInRoman = convertToRoman(hours);
     var minutesInRoman = convertToRoman(minutes);
+
     return hoursInRoman + ":" + minutesInRoman;
 }
 
-function convertToRoman(arabicNumeral)
-{
-    var romanNumeral;
-    var tenNumeral = (arabicNumeral / 10)>>0;
-    if (tenNumeral >= 5)
-        romanNumeral = "L";
-    if(tenNumeral >= 4 && tenNumeral < 5)
-        romanNumeral = "XL";
-    if(tenNumeral < 4)
-        romanNumeral = multiplySting("X", tenNumeral);
+function convertToRoman(arabicNumeral){
+    var romanNumeral = "";
+    var tenNumeral = Math.floor(arabicNumeral / 10);
 
+    if (tenNumeral === 5){
+        romanNumeral = "L";
+    }
+    if(tenNumeral === 4){
+        romanNumeral = "XL";
+    }
+    if(tenNumeral < 4 && tenNumeral > 0){
+        romanNumeral = multiplySting("X", tenNumeral);
+    }
+    if(arabicNumeral % 10 === 0 && tenNumeral > 0){
+        return romanNumeral;
+    }
     return romanNumeral + convertNineNumberToRoman(arabicNumeral % 10);
 }
 
-function convertNineNumberToRoman(arabicNumeral)
-{
-    var romanNumeral;
-    if (arabicNumeral == 9)
-        romanNumeral = "IX";
-    if(arabicNumeral >= 5 && arabicNumeral < 9)
-        romanNumeral = "V" + multiplySting("I", arabicNumeral % 5);
-    if(arabicNumeral == 4)
-        romanNumeral = "IV";
-    if(arabicNumeral < 4)
-        romanNumeral = multiplySting("I", arabicNumeral % 5);
-    if(arabicNumeral == 0)
-        romanNumeral = "—";
-    return romanNumeral;
+function convertNineNumberToRoman(arabicNumeral){
+    if (arabicNumeral === 9){
+        return "IX";
+    }
+    if(arabicNumeral >= 5 && arabicNumeral < 9){
+        return "V" + multiplySting("I", arabicNumeral % 5);
+    }
+    if(arabicNumeral === 4){
+        return "IV";
+    }
+    if(arabicNumeral < 4 && arabicNumeral > 0){
+        return multiplySting("I", arabicNumeral % 5);
+    }
+    if(arabicNumeral === 0){
+        return "—";
+    }
+    return false;
 }
 
-function multiplySting(str, mul)
-{
+function multiplySting(str, mul){
     var newStr = "";
-    for(var i=0; i < mul; i ++)
+
+    for(var i=0; i < mul; i ++){
         newStr += str;
+    }
     return newStr;
 }
 
+function checkCorrect(hours, minutes){
 
-function checkCorrect(hours, minutes)
-{
-    //Магия переехала сюда
-    if (hours % 1 !== 0 || minutes % 1 !== 0) {
-        return false;
+    if(hours === undefined){
+        return "Первый аргумент не существует.";
     }
-    if(hours > 23 || hours < 0 || minutes > 59 || minutes < 0)
-        return false;
-    return true;
+    if(minutes === undefined){
+        return "Второй аргумент не существует.";
+    }
+
+    hours = Number(hours);
+    minutes = Number(minutes);
+
+    if(!Number.isInteger(hours)){
+        return "Первый аргумент не является целым числом.";
+    }
+    if(!Number.isInteger(minutes)){
+        return "Второй аргумент не является целым числом.";
+    }
+    if(hours > 23 || hours < 0){
+        return "Значение часа не попадает в интервал от 0 до 23.";
+    }
+    if(minutes > 59 || minutes < 0){
+        return "Значение минут не попадает в интервал от 0 до 59.";
+    }
+    return false;
 }
 
-
-function convertToAscii(romanNumber)
-{
+function convertToAscii(romanNumber){
     var textToAsci = {
         L: {
             0: "||     ",
@@ -113,10 +134,9 @@ function convertToAscii(romanNumber)
 
    }
     var asciArt = "";
-    for(var k = 0; k < 4; k++)
-    {
-        for(var i = 0; i < romanNumber.length; i++)
-        {
+    
+    for(var k = 0; k < 4; k++){
+        for(var i = 0; i < romanNumber.length; i++){
             asciArt += textToAsci[romanNumber.charAt(i)][k] + " ";
         }
         asciArt += "\n";
