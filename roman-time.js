@@ -1,20 +1,16 @@
 (function() {
-    'use strict';
-    var hours = process.argv[2];
-    var minutes = process.argv[3];
-    var error, timeStr;
+    'use strict';    
+    var time = new Time(process.argv[2], process.argv[3]);
 
-    error = checkCorrect(hours, minutes);
-    if (error) {
-        console.log(error);
+    if (!time.isCorrect()) {
+        console.log(time.errors);
         process.exit(1);
     }
 
-    timeStr = convertTimeToRoman(hours, minutes);
+    var timeStr = convertTimeToRoman(time.hours, time.minutes);
 
     console.log(timeStr);
     console.log(convertToAscii(timeStr));
-
 
     function convertTimeToRoman(hours, minutes) {
         var hoursInRoman = convertToRoman(hours);
@@ -63,39 +59,11 @@
 
     function multiplySting(str, mul) {
         var newStr = "";
-        var i;
 
-        for (i = 0; i < mul; i += 1) {
+        for (var i = 0; i < mul; i += 1) {
             newStr += str;
         }
         return newStr;
-    }
-
-    function checkCorrect(hours, minutes) {
-
-        if (hours === undefined) {
-            return "Первый аргумент не существует.";
-        }
-        if (minutes === undefined) {
-            return "Второй аргумент не существует.";
-        }
-
-        hours = Number(hours);
-        minutes = Number(minutes);
-
-        if (!Number.isInteger(hours)) {
-            return "Первый аргумент не является целым числом.";
-        }
-        if (!Number.isInteger(minutes)) {
-            return "Второй аргумент не является целым числом.";
-        }
-        if (hours > 23 || hours < 0) {
-            return "Значение часа не попадает в интервал от 0 до 23.";
-        }
-        if (minutes > 59 || minutes < 0) {
-            return "Значение минут не попадает в интервал от 0 до 59.";
-        }
-        return false;
     }
 
     function convertToAscii(romanNumber) {
@@ -139,14 +107,47 @@
 
         }
         var asciArt = "";
-        var k, i;
 
-        for (k = 0; k < 4; k += 1 ) {
-            for (i = 0; i < romanNumber.length; i += 1 ) {
+        for (var k = 0; k < 4; k += 1 ) {
+            for (var i = 0; i < romanNumber.length; i += 1 ) {
                 asciArt += textToAsci[romanNumber.charAt(i)][k] + " ";
             }
             asciArt += "\n";
         }
         return asciArt;
     }
+    function Time(hours, minutes) {
+        this.errors = false;
+        this.hours = hours === undefined ? undefined : Number(hours);
+        this.minutes = minutes === undefined ? undefined : Number(minutes);
+
+        this.isCorrect = function(){
+            if (this.hours === undefined) {
+                this.errors = "Первый аргумент не существует.";
+                return false;
+            }
+            if (this.minutes === undefined) {
+                this.errors = "Второй аргумент не существует.";
+                return false;
+            }            
+            if (!Number.isInteger(this.hours)) {
+                this.errors = "Первый аргумент не является целым числом.";
+                return false;
+            }
+            if (!Number.isInteger(this.minutes)) {
+                this.errors = "Второй аргумент не является целым числом.";
+                return false;
+            }
+           if (this.hours > 23 || this.hours < 0) {
+                this.errors = "Значение часа не попадает в интервал от 0 до 23.";
+                return false;
+            }
+            if (this.minutes > 59 || this.minutes < 0) {
+                this.errors = "Значение минут не попадает в интервал от 0 до 59.";
+                return false;
+            } 
+            return true;
+        } 
+    }
+
 }());
